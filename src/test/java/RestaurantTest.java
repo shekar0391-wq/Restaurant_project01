@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
@@ -33,7 +36,6 @@ class RestaurantTest {
         Mockito.when(spiedRestaurant.getCurrentTime()).thenReturn(LocalTime.parse("23:00:00"));
         assertFalse(restaurant.isRestaurantOpen());
     }
-
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -59,4 +61,34 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>Order Value<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @Test
+    public void for_any_selected_items_order_value_should_not_be_equal_to_zero() {
+        initializeRestaurantObject();
+        List<String> itemNames = new ArrayList<>();
+        itemNames.add("Sweet corn soup");
+        itemNames.add("Vegetable lasagne");
+        assertNotEquals(0,
+                restaurant.displayOrderValue(itemNames));
+
+    }
+
+    @Test
+    public void for_any_selected_items_order_value_should_be_calculated() {
+        initializeRestaurantObject();
+        List<String> itemNames = new ArrayList<>();
+        itemNames.add("Sweet corn soup");
+        itemNames.add("Vegetable lasagne");
+        int orderValue;
+
+        orderValue = restaurant.getItemPrice("Sweet corn soup");
+        orderValue += restaurant.getItemPrice("Vegetable lasagne");
+
+        assertEquals(orderValue,
+                restaurant.displayOrderValue(itemNames));
+
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<Order Value>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
